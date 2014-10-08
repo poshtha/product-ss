@@ -1,96 +1,128 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!-- Licensed under the Apache License, Version 2.0 (the "License"); you 
+	may not use this file except in compliance with the License. You may obtain 
+	a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless 
+	required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. 
+	See accompanying LICENSE file. -->
 
 <!-- Put site-specific property overrides in this file. -->
 
 <configuration>
+	<property>
+		<name>fs.default.name</name>
+		<value>hdfs://127.0.0.1:54310</value>
+		<description>NameNode hostname</description>
+	</property>
 
-<property>
-  <name>hadoop.tmp.dir</name>
-  <value>repository/data/hadoop</value>
-  <description>A base for other temporary directories.</description>
-</property>
+	<property>
+		<name>fs.checkpoint.dir</name>
+		<value>/tmp/hadoop/dfs/checkpoint</value>
+		<!--value>/home/deep/tmp/hadoop_2/hadoop-2.4.1/data/checkpoint</value -->
+		<description>A comma separated list of paths. Use the list of
+			directories from $FS_CHECKPOINT_DIR.
+			For example,
+			/grid/hadoop/hdfs/snn,sbr/grid1/hadoop/hdfs/snn,sbr/grid2/hadoop/hdfs/snn
+		</description>
+	</property>
 
-<property>
-  <name>fs.default.name</name>
-  <value>hdfs://localhost:54310</value>
-  <description>The name of the default file system.  A URI whose
-  scheme and authority determine the FileSystem implementation.  The
-  uri's scheme determines the config property (fs.SCHEME.impl) naming
-  the FileSystem implementation class.  The uri's authority is used to
-  determine the host, port, etc. for a filesystem.</description>
-</property>
+	<property>
+		<name>fs.hdfs.impl</name>
+		<value>org.apache.hadoop.hdfs.DistributedFileSystem</value>
+	</property>
 
-<property>
-  <name>fs.hdfs.impl</name>
-  <value>org.apache.hadoop.hdfs.DistributedFileSystem</value>
-  <description>The FileSystem for hdfs: uris.</description>
-</property>
+	<property>
+		<name>fs.file.impl</name>
+		<value>org.apache.hadoop.fs.LocalFileSystem</value>
+		<description>The FileSystem for file: uris.</description>
+	</property>
 
-<property>
-  <name>fs.file.impl</name>
-  <value>org.apache.hadoop.fs.LocalFileSystem</value>
-  <description>The FileSystem for file: uris.</description>
-</property>
+	<property>
+		<name>hadoop.tmp.dir</name>
+		<value>/tmp</value>
+	</property>
 
-<property>
-  <name>hadoop.security.authorization</name>
-  <value>ture</value> 
-</property>
+	<property>
+		<name>hadoop.security.authentication</name>
+		<value>simple</value>
+	</property>
 
-<property>
-  <name>hadoop.security.authentication</name>
-  <value>kerberos</value> 
-</property>
-<!--<property> 
-  <name>hadoop.security.auth_to_local</name> 
-  <value> 
-	RULE:[2:$1](.*@WSO2.COM) DEFAULT 
-  </value> 
-</property>-->
-<property>
-  <name>hadoop.kerberos.kinit.command</name>
-  <value>/usr/bin/kinit</value>
-</property>
-<!--<property>
-  <name>hadoop.carbon.enabled</name>
-  <value>true</value>
-</property>-->
-<property>
-<name>hadoop.security.group.mapping</name>
-<value>org.wso2.carbon.hdfs.mgt.CarbonRolesToGroupMapping</value>
-</property>
+	<property>
+		<name>hadoop.security.authorization</name>
+		<value>false</value>
+	</property>
 
-<property>
-  <name>hadoop.security.group.mapping.service.url</name>
-  <value>https://127.0.0.1:9443/services/</value>
-  <description>The URL where WSO2 carbon user group retreival service 
-  is located.</description>
-</property>
-<property>
-  <name>hadoop.security.truststore</name>
-  <value>repository/resources/security/wso2carbon.jks</value>
-  <description>The key store file to use when accessing WSO2 carbon 
-  services.</description>
-</property>
-<property>
-  <name>hadoop.security.admin.username</name>
-  <value>admin</value>
-  <description>WSO2 carbon admin username</description>
-</property>
-<property>
-  <name>hadoop.security.admin.password</name>
-  <value>admin</value>
-  <description>WSO2 carbon admin password</description>
-</property>
-<property>
-  <name>hadoop.mapred.reporter</name>
-  <value>org.wso2.carbon.mapred.reporting.CarbonJobCoreReporter</value>
-  <description>The class that implements the reporting mechanism of Hadoop MR</description>
-</property>
-<property>
-  <name>hadoop.mapred.reporter.service.url</name>
-  <value>https://127.0.0.1:9443/services/</value>
-  <description>The URL where reporting object shoud be stored</description>
-</property>
+	<property>
+		<name>hadoop.rpc.protection</name>
+		<value>authentication</value>
+	</property>
+
+	<property>
+		<name>dfs.block.access.token.enable</name>
+		<value>true</value>
+	</property>
+
+	<property>
+		<name>dfs.namenode.keytab.file</name>
+		<value>keytabs/carbon.keytab</value>
+	</property>
+
+	<property>
+		<name>dfs.namenode.kerberos.principal</name>
+		<value>namenode/carbon.super@WSO2.ORG</value>
+	</property>
+	<property>
+		<name>hadoop.security.group.mapping</name>
+		<value>org.apache.hadoop.security.LdapGroupsMapping</value>
+	</property>
+
+	<property>
+		<name>hadoop.security.group.mapping.ldap.base</name>
+		<value>ou=Groups,dc=wso2,dc=org</value>
+	</property>
+	<property>
+		<name>hadoop.security.group.mapping.ldap.url</name>
+		<value>ldap://localhost:10389</value>
+	</property>
+	<property>
+		<name>hadoop.security.group.mapping.ldap.bind.password</name>
+		<value>admin</value>
+	</property>
+	<property>
+		<name>hadoop.security.group.mapping.ldap.bind.user</name>
+		<value>uid=admin,ou=system</value>
+	</property>
+	<property>
+		<name>hadoop.security.group.mapping.ldap.search.filter.user</name>
+		<value>(&amp;(objectClass=person)(uid=?))</value>
+	</property>
+	<property>
+		<name>hadoop.security.group.mapping.ldap.search.filter.group</name>
+		<value>(&amp;(objectClass=groupOfNames)(cn=?))</value>
+	</property>
+	<property>
+		<name>hadoop.security.group.mapping.ldap.search.attr.member</name>
+		<value>member</value>
+	</property>
+	<property>
+		<name>hadoop.security.group.mapping.ldap.search.attr.group.name</name>
+		<value>cn</value>
+	</property>
+	<property>
+		<name>hadoop.user.group.static.mapping.overrides</name>
+		<value>datanode=supergroup;client/hdfs=supergroup;client=supergroup;datanode1=supergroup;datanode2=supergroup;root=supergroup</value>
+	</property>
+
+
+
+	<!--property> <name>fs.default.name</name> <value>viewfs:///</value> </property> 
+		<property> <name>fs.viewfs.mounttable.default.link./N1Deep</name> <value>hdfs://localhost:8020/deeps</value> 
+		</property> <property> <name>fs.viewfs.mounttable.default.link./N2Deep</name> 
+		<value>hdfs://localhost:8020/wso2</value> </property -->
+
+	<!--property> <name>dfs.webhdfs.enabled</name> <value>false</value> </property -->
+
 </configuration>
